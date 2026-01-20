@@ -27,6 +27,7 @@ export const useScrollPosition = () => {
 
   useEffect(() => {
     let ticking = false;
+    let rafId: number | null = null;
     
     const onScroll = () => {
       if (!ticking) {
@@ -43,6 +44,10 @@ export const useScrollPosition = () => {
 
     return () => {
       window.removeEventListener('scroll', onScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      ticking = false;
     };
   }, [handleScroll]);
 };

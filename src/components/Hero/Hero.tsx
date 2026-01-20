@@ -54,7 +54,13 @@ export const Hero: FC = () => {
         </div>
       </div>
 
-      <div className={styles.scrollIndicator}>
+      <div 
+        className={styles.scrollIndicator} 
+        onClick={() => scrollToSection('about')}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === 'Enter' && scrollToSection('about')}
+      >
         <div className={styles.mouse}>
           <div className={styles.wheel}></div>
         </div>

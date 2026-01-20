@@ -14,24 +14,24 @@ export const useIntersectionObserver = (
   const { threshold = 0.1, rootMargin = '0px', triggerOnce = false } = options;
   const ref = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [hasTriggered, setHasTriggered] = useState(false);
+  const hasTriggeredRef = useRef(false);
 
   const handleIntersection = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (triggerOnce && hasTriggered) return;
+        if (triggerOnce && hasTriggeredRef.current) return;
 
         if (entry.isIntersecting) {
           setIsVisible(true);
           addVisibleSection(sectionId);
-          if (triggerOnce) setHasTriggered(true);
+          if (triggerOnce) hasTriggeredRef.current = true;
         } else if (!triggerOnce) {
           setIsVisible(false);
           removeVisibleSection(sectionId);
         }
       });
     },
-    [sectionId, triggerOnce, hasTriggered]
+    [sectionId, triggerOnce]
   );
 
   useEffect(() => {
